@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AiFillGoogleCircle } from "react-icons/ai";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { TbFidgetSpinner } from "react-icons/tb";
+import { saveUser } from "../../Api/user";
 
 function Login() {
   const navigate = useNavigate();
@@ -18,7 +19,8 @@ function Login() {
     const email = form.email.value;
     const password = form.password.value;
     loginUser(email, password)
-      .then(() => {
+      .then((result) => {
+        saveUser(result?.user);
         navigate(from, { replace: true });
       })
       .catch(error => {
@@ -29,7 +31,8 @@ function Login() {
 
   const googleHandle = () => {
     googleAuth()
-      .then(() => {
+      .then((result) => {
+        saveUser(result?.user);
         navigate(from, { replace: true });
       })
       .catch(error => {

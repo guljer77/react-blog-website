@@ -4,6 +4,7 @@ import { FaFaceGrinStars } from "react-icons/fa6";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { TbFidgetSpinner } from "react-icons/tb";
+import { saveUser } from "../../Api/user";
 
 function Signup() {
   const [error, setError] = useState("");
@@ -44,7 +45,8 @@ function Signup() {
         userRegister(email, password)
           .then(() => {
             updateUser(name, imgUrl)
-              .then(() => {
+              .then((result) => {
+                saveUser(result.user);
                 navigate(from, { replace: true });
               })
               .catch(error => {
@@ -61,7 +63,8 @@ function Signup() {
 
   const googleHandle = () => {
     googleAuth()
-      .then(() => {
+      .then((result) => {
+        saveUser(result.user);
         navigate(from, { replace: true });
       })
       .catch(error => {
