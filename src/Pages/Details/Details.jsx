@@ -25,6 +25,7 @@ function Details() {
       author: user?.displayName,
       comment: message,
       id: id,
+      img: user?.photoURL
     };
     fetch(`https://blog-server-tan-one.vercel.app/comments`, {
       method: "POST",
@@ -36,18 +37,6 @@ function Details() {
       .then(res => res.json())
       .then(data => console.log(data));
     form.reset("");
-    // fetch('https://blog-server-ak4vzjsq7-guljer77.vercel.app/comments', {
-    //   method: "POST",
-    //   headers: {
-    //     "content-type": "application/json",
-    //   },
-    //   body: JSON.stringify(messageComment),
-    // })
-    //   .then(res => res.json())
-    //   .then(data => {
-    //     console.log(data);
-    //   });
-    // form.reset("");
   };
   return (
     <div>
@@ -83,7 +72,7 @@ function Details() {
             {newCData?.map(item => (
               <div key={item?._id} className="pb-10">
                 <p className="flex items-center gap-2 pb-2">
-                  <FaUserEdit /> {item?.author}
+                  <img src={item?.img} alt="" className="w-[60px] h-[60px] rounded-full" /> {item?.author}
                 </p>
                 <p className="text-[14px] font-light pl-5">{item?.comment}</p>
               </div>
