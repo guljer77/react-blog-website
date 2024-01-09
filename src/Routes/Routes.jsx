@@ -36,7 +36,8 @@ export const router = createBrowserRouter([
       },
       {
         path: '/details/:id',
-        element: <Details />
+        element: <Details />,
+        loader: ()=> fetch(`https://blog-server-baq1v1v3c-guljer77.vercel.app/comments`)
       }
     ]
   },

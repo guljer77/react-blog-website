@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import CommonBanner from "../../Components/CommonBanner";
 import Data from "../../../public/blogsData.json";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLoaderData, useParams } from "react-router-dom";
 import Container from "../../Components/Container";
 import { FaUserEdit } from "react-icons/fa";
 import LatestBlog from "../Home/BlogHome/LatestBlog";
@@ -9,12 +9,36 @@ import { BiLike } from "react-icons/bi";
 import { AuthContext } from "../../Provider/AuthProvider";
 
 function Details() {
-  const {user} = useContext(AuthContext);
+  const commentsData = useLoaderData();
+  const { user } = useContext(AuthContext);
   const { id } = useParams();
   const blogData = Data.find(item => item?.id == id);
   const { image, title, author, published_date, content, tags, category } =
     blogData;
   const relatedPost = Data.filter(item => item?.category === category);
+  const finalComment = commentsData?.filter((item)=> item?.id === id);
+  const commentUser = event => {
+    event.preventDefault();
+    const form = event.target;
+    const message = form.message.value;
+    const messageComment = {
+      author: user?.displayName,
+      comment: message,
+      id: id,
+    };
+    fetch(`https://blog-server-baq1v1v3c-guljer77.vercel.app/comments`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(messageComment),
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+      });
+    form.reset("");
+  };
   return (
     <div>
       <CommonBanner title={"Blog Details"} />
@@ -46,25 +70,47 @@ function Details() {
               </div>
             </div>
             <hr className="border border-gray-200 mb-10" />
-            <div className="pb-10">
-              <p className="flex items-center gap-2 pb-2">
-                <FaUserEdit /> {author}
-              </p>
-              <p className="text-[14px] font-light pl-5">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut,
-                odit?
-              </p>
-            </div>
+            {finalComment?.map(item => (
+              <div key={item?._id} className="pb-10">
+                <p className="flex items-center gap-2 pb-2">
+                  <FaUserEdit /> {item?.author}
+                </p>
+                <p className="text-[14px] font-light pl-5">{item?.comment}</p>
+              </div>
+            ))}
             <div>
-              <form action="">
+              <form onSubmit={commentUser} action="">
                 <div>
-                  <label htmlFor="" className="block pb-2 text-[15px]">Write Your Comment</label>
-                  <textarea name="" id="" cols="30" rows="5" className="w-full border outline-0 p-5 resize-none"></textarea>
+                  <label htmlFor="" className="block pb-2 text-[15px]">
+                    Write Your Comment
+                  </label>
+                  <textarea
+                    name="message"
+                    id=""
+                    cols="30"
+                    rows="5"
+                    className="w-full border outline-0 p-5 resize-none"
+                  ></textarea>
                 </div>
                 <div className="pt-5">
-                  {
-                    user ? <><input type="submit" value="Message" className={`px-5 py-2 bg-primary text-white cursor-pointer`} /></>:<><Link to="/login" className="px-5 py-2 bg-primary text-white">Please Login With Comment</Link></>
-                  }
+                  {user ? (
+                    <>
+                      <input
+                        type="submit"
+                        value="Message"
+                        className={`px-5 py-2 bg-primary text-white cursor-pointer`}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <Link
+                        to="/login"
+                        className="px-5 py-2 bg-primary text-white"
+                      >
+                        Please Login With Comment
+                      </Link>
+                    </>
+                  )}
                 </div>
               </form>
             </div>
