@@ -9,14 +9,14 @@ import { BiLike } from "react-icons/bi";
 import { AuthContext } from "../../Provider/AuthProvider";
 
 function Details() {
-  const commentsData = useLoaderData();
+  const cData = useLoaderData();
   const { user } = useContext(AuthContext);
   const { id } = useParams();
   const blogData = Data.find(item => item?.id == id);
   const { image, title, author, published_date, content, tags, category } =
     blogData;
   const relatedPost = Data.filter(item => item?.category === category);
-  const finalComment = commentsData?.filter((item)=> item?.id === id);
+  const newCData = cData.filter(item => item.id === id);
   const commentUser = event => {
     event.preventDefault();
     const form = event.target;
@@ -26,7 +26,7 @@ function Details() {
       comment: message,
       id: id,
     };
-    fetch(`https://blog-server-baq1v1v3c-guljer77.vercel.app/comments`, {
+    fetch(`https://blog-server-tan-one.vercel.app/comments`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -34,10 +34,20 @@ function Details() {
       body: JSON.stringify(messageComment),
     })
       .then(res => res.json())
-      .then(data => {
-        console.log(data);
-      });
+      .then(data => console.log(data));
     form.reset("");
+    // fetch('https://blog-server-ak4vzjsq7-guljer77.vercel.app/comments', {
+    //   method: "POST",
+    //   headers: {
+    //     "content-type": "application/json",
+    //   },
+    //   body: JSON.stringify(messageComment),
+    // })
+    //   .then(res => res.json())
+    //   .then(data => {
+    //     console.log(data);
+    //   });
+    // form.reset("");
   };
   return (
     <div>
@@ -70,7 +80,7 @@ function Details() {
               </div>
             </div>
             <hr className="border border-gray-200 mb-10" />
-            {finalComment?.map(item => (
+            {newCData?.map(item => (
               <div key={item?._id} className="pb-10">
                 <p className="flex items-center gap-2 pb-2">
                   <FaUserEdit /> {item?.author}
