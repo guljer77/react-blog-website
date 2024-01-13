@@ -43,10 +43,10 @@ function Signup() {
       .then(imgData => {
         const imgUrl = imgData.data.display_url;
         userRegister(email, password)
-          .then(() => {
+          .then((result) => {
             updateUser(name, imgUrl)
-              .then((result) => {
-                saveUser(result.user);
+              .then(() => {
+                saveUser(result?.user);
                 navigate(from, { replace: true });
               })
               .catch(error => {
