@@ -17,7 +17,7 @@ function Sidebar() {
   };
   return (
     <div className="p-5 rounded-md shadow-lg bg-gray-100 lg:block flex items-center justify-between">
-      <Link to="/profile" className="text-center block">
+      <Link to="/profile" className="text-center lg:block hidden">
         <img
           src={user?.photoURL}
           alt=""
