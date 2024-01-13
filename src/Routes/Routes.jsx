@@ -8,45 +8,71 @@ import Blog from "../Pages/Blog/Blog";
 import Details from "../Pages/Details/Details";
 import Login from "../Pages/Login/Login";
 import Signup from "../Pages/Register/Signup";
+import ProfileLayouts from "../Pages/Profile/ProfileLayouts";
+import Info from "../Pages/Profile/Info/Info";
+import AddPost from "../Pages/Profile/Add-Post/AddPost";
+import AllPost from "../Pages/Profile/All-Post/AllPost";
+import PrivateRoutes from "./PrivateRoutes";
 
 export const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <Main />,
     children: [
       {
-        path: '/',
-        element: <Home />
+        path: "/",
+        element: <Home />,
       },
       {
-        path: '/service',
-        element: <Services />
+        path: "/service",
+        element: <Services />,
       },
       {
-        path: '/about',
-        element: <About />
+        path: "/about",
+        element: <About />,
       },
       {
-        path: '/blog',
-        element: <Blog />
+        path: "/blog",
+        element: <Blog />,
       },
       {
-        path: '/contact',
-        element: <Contact />
+        path: "/contact",
+        element: <Contact />,
       },
       {
-        path: '/details/:id',
+        path: "/details/:id",
         element: <Details />,
-        // loader: () => fetch(`https://blog-server-tan-one.vercel.app/comments`)
-      }
-    ]
+      },
+      {
+        path: "/profile",
+        element: (
+          <PrivateRoutes>
+            <ProfileLayouts />
+          </PrivateRoutes>
+        ),
+        children: [
+          {
+            path: "/profile",
+            element: <Info />,
+          },
+          {
+            path: "/profile/all-post",
+            element: <AllPost />,
+          },
+          {
+            path: "/profile/add-post",
+            element: <AddPost />,
+          },
+        ],
+      },
+    ],
   },
   {
-    path: '/login',
-    element: <Login />
+    path: "/login",
+    element: <Login />,
   },
   {
-    path: '/signUp',
-    element: <Signup />
-  }
-])
+    path: "/signUp",
+    element: <Signup />,
+  },
+]);

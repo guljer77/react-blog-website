@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CommonBanner from "../../Components/CommonBanner";
 import Data from "../../../public/blogsData.json";
-import { Link, useLoaderData, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Container from "../../Components/Container";
 import { FaUserEdit } from "react-icons/fa";
 import LatestBlog from "../Home/BlogHome/LatestBlog";
@@ -9,14 +9,20 @@ import { BiLike } from "react-icons/bi";
 import { AuthContext } from "../../Provider/AuthProvider";
 
 function Details() {
-  // const cData = useLoaderData();
+  const [comment, setComment] = useState([]);
+  useEffect(()=>{
+    fetch(`http://localhost:5000/comments`)
+    .then(res => res.json())
+    .then(data => setComment(data))
+  }, [comment]);
+
   const { user } = useContext(AuthContext);
   const { id } = useParams();
   const blogData = Data.find(item => item?.id == id);
   const { image, title, author, published_date, content, tags, category } =
     blogData;
   const relatedPost = Data.filter(item => item?.category === category);
-  // const newCData = cData.filter(item => item.id === id);
+  const newCData = comment?.filter(item => item.id == id);
   const commentUser = event => {
     event.preventDefault();
     const form = event.target;
@@ -27,7 +33,7 @@ function Details() {
       id: id,
       img: user?.photoURL
     };
-    fetch(`https://blog-server-tan-one.vercel.app/comments`, {
+    fetch(`http://localhost:5000/comments`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -69,14 +75,14 @@ function Details() {
               </div>
             </div>
             <hr className="border border-gray-200 mb-10" />
-            {/* {newCData?.map(item => (
+            {newCData?.map(item => (
               <div key={item?._id} className="pb-10">
                 <p className="flex items-center gap-2 pb-2">
                   <img src={item?.img} alt="" className="w-[40px] h-[40px] rounded-full" /> {item?.author}
                 </p>
                 <p className="text-[14px] font-light pl-10">{item?.comment}</p>
               </div>
-            ))} */}
+            ))}
             <div>
               <form onSubmit={commentUser} action="">
                 <div>
