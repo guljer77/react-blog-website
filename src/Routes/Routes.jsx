@@ -13,6 +13,7 @@ import Info from "../Pages/Profile/Info/Info";
 import AddPost from "../Pages/Profile/Add-Post/AddPost";
 import AllPost from "../Pages/Profile/All-Post/AllPost";
 import PrivateRoutes from "./PrivateRoutes";
+import Edit from "../Pages/Profile/Edit-Post/Edit";
 
 export const router = createBrowserRouter([
   {
@@ -63,6 +64,10 @@ export const router = createBrowserRouter([
             path: "/profile/add-post",
             element: <AddPost />,
           },
+          {
+            path: '/profile/post-edit/:id',
+            element: <Edit />
+          }
         ],
       },
     ],

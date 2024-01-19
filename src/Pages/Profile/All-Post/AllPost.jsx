@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../Provider/AuthProvider";
 import { Link } from "react-router-dom";
 import { FaRegEye, FaPen, FaTrash } from "react-icons/fa";
+import Swal from "sweetalert2";
+import { deleteBlogPost } from "../../../Api/blog";
 
 function AllPost() {
   const { user } = useContext(AuthContext);
@@ -13,6 +15,12 @@ function AllPost() {
   }, [blogs]);
 
   const newBlogs = blogs.filter(item => item?.email == user?.email);
+
+  const blogDelete = id => {
+    deleteBlogPost(id);
+    const remaiNingBlog = blogs.filter((item)=> item?._id !== id);
+    setBlogs(remaiNingBlog);
+  };
 
   return (
     <div className="p-5 rounded-md shadow-lg bg-white">
@@ -40,12 +48,21 @@ function AllPost() {
               <img src={item?.image} className="w-[80px] h-auto" alt="" />
             </h4>
             <h4 className="w-1/4 text-center py-2">
-              {item?.title.slice(0,15)}...
+              {item?.title.slice(0, 15)}...
             </h4>
             <h4 className="w-2/4 text-center py-2 flex items-center justify-center lg:space-x-5 space-x-2">
-              <Link className="block lg:p-3 p-2 bg-primary text-white"><FaRegEye /></Link>
-              <Link className="block lg:p-3 p-2 bg-primary text-white"><FaPen /></Link>
-              <button className="block lg:p-3 p-2 bg-primary text-white"><FaTrash /></button>
+              <Link className="block lg:p-3 p-2 bg-primary text-white">
+                <FaRegEye />
+              </Link>
+              <Link to={`/profile/post-edit/${item?._id}`} className="block lg:p-3 p-2 bg-primary text-white">
+                <FaPen />
+              </Link>
+              <button
+                onClick={() => blogDelete(item?._id)}
+                className="block lg:p-3 p-2 bg-primary text-white"
+              >
+                <FaTrash />
+              </button>
             </h4>
           </div>
         ))}

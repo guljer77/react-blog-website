@@ -1,9 +1,10 @@
 import React, { useContext } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../Provider/AuthProvider";
 import { saveBlog } from "../../../Api/blog";
 
 function AddPost() {
+  const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const addPostForm = event => {
     event.preventDefault();
@@ -39,7 +40,7 @@ function AddPost() {
       }
       saveBlog(blogData);
     })
-    Navigate('/profile/all-post');
+    navigate('/profile/all-post');
   };
 
   return (
