@@ -1,7 +1,7 @@
 import Swal from "sweetalert2";
 
 export const saveBlog = (id) =>{
-  fetch(`http://localhost:5000/blogs`,{
+  fetch(`https://blog-server-14vb0vvb4-guljer77.vercel.app/blogs`,{
     method: "POST",
     headers: {
       "content-type":"application/json"
@@ -33,7 +33,7 @@ export const deleteBlogPost = (id) =>{
     confirmButtonText: "Yes, delete it!",
   }).then(result => {
     if (result.isConfirmed) {
-      fetch(`http://localhost:5000/blogs/${id}`, {
+      fetch(`https://blog-server-14vb0vvb4-guljer77.vercel.app/blogs/${id}`, {
         method: "DELETE",
       })
         .then(res => res.json())
@@ -51,7 +51,7 @@ export const deleteBlogPost = (id) =>{
 } 
 
 export const updateData = (id, item)=>{
-  fetch(`http://localhost:5000/blogs/${id}`,{
+  fetch(`https://blog-server-14vb0vvb4-guljer77.vercel.app/blogs/${id}`,{
     method: "PUT",
     headers: {
       "content-type":"application/json"
@@ -71,23 +71,3 @@ export const updateData = (id, item)=>{
     }
   })
 }
-
-// export const deleteBlog = (id) =>{
-//   fetch(`http://localhost:5000/blogs/${id}`,{
-//     method: "DELETE",
-//     headers: {
-//       "content-type":"application/json"
-//     },
-//     body: JSON.stringify(id)
-//   })
-//   .then(res=> res.json())
-//   .then( data=> {
-//     if(data.deletedCount > 0){
-//       Swal.fire({
-//         title: "Deleted!",
-//         text: "Your file has been deleted.",
-//         icon: "success",
-//       });
-//     }
-//   })
-// }

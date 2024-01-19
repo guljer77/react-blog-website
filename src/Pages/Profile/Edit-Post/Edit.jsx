@@ -7,7 +7,7 @@ function Edit() {
   const { id } = useParams();
   const [blogs, setBlogs] = useState([]);
   useEffect(() => {
-    fetch(`http://localhost:5000/blogs`)
+    fetch(`https://blog-server-14vb0vvb4-guljer77.vercel.app/blogs`)
       .then(res => res.json())
       .then(data => setBlogs(data));
   }, [blogs]);

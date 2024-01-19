@@ -11,7 +11,7 @@ import { AuthContext } from "../../Provider/AuthProvider";
 function Details() {
   const [comment, setComment] = useState([]);
   useEffect(()=>{
-    fetch(`http://localhost:5000/comments`)
+    fetch(`https://blog-server-14vb0vvb4-guljer77.vercel.app/comments`)
     .then(res => res.json())
     .then(data => setComment(data))
   }, [comment]);
@@ -33,7 +33,7 @@ function Details() {
       id: id,
       img: user?.photoURL
     };
-    fetch(`http://localhost:5000/comments`, {
+    fetch(`https://blog-server-14vb0vvb4-guljer77.vercel.app/comments`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
