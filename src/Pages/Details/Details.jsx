@@ -11,7 +11,12 @@ import { AuthContext } from "../../Provider/AuthProvider";
 function Details() {
   const [comment, setComment] = useState([]);
   useEffect(()=>{
-    fetch(`https://blog-server-5l4tzs3mu-guljer77.vercel.app/comments`)
+    fetch(`https://blog-server-90282et18-guljer77.vercel.app/comments`,{
+      method:"GET",
+      headers:{
+        authorization : `Bearer ${localStorage.getItem('car-access-token')}`
+      }
+    })
     .then(res => res.json())
     .then(data => setComment(data))
   }, [comment]);
@@ -33,7 +38,7 @@ function Details() {
       id: id,
       img: user?.photoURL
     };
-    fetch(`https://blog-server-5l4tzs3mu-guljer77.vercel.app/comments`, {
+    fetch(`https://blog-server-90282et18-guljer77.vercel.app/comments`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

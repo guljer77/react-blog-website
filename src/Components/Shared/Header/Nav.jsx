@@ -14,7 +14,7 @@ function Nav() {
 
   const [admin, setAdmin] = useState([]);
   useEffect(() => {
-    fetch(`http://localhost:5000/users`)
+    fetch(`https://blog-server-90282et18-guljer77.vercel.app/users`)
       .then(res => res.json())
       .then(data => setAdmin(data));
   }, [admin]);
@@ -25,7 +25,9 @@ function Nav() {
 
   const logoutHandle = () => {
     userSignOut()
-      .then(() => {})
+      .then(() => {
+        localStorage.removeItem('car-access-token');
+      })
       .catch(error => {
         console.log(error.message);
       });

@@ -19,7 +19,23 @@ function Login() {
     const email = form.email.value;
     const password = form.password.value;
     loginUser(email, password)
-      .then((result) => {
+      .then(result => {
+        const user = result.user;
+        const loggedUser = {
+          email: user?.email,
+        };
+        fetch(`https://blog-server-548gkte3g-guljer77.vercel.app/jwt`, {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(loggedUser),
+        })
+          .then(res => res.json())
+          .then(data => {
+            console.log(data);
+            localStorage.setItem('car-access-token', data.token)
+          });
         saveUser(result?.user);
         navigate(from, { replace: true });
       })
@@ -31,7 +47,23 @@ function Login() {
 
   const googleHandle = () => {
     googleAuth()
-      .then((result) => {
+      .then(result => {
+        const user = result.user;
+        const loggedUser = {
+          email: user?.email,
+        };
+        fetch(`https://blog-server-548gkte3g-guljer77.vercel.app/jwt`, {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(loggedUser),
+        })
+          .then(res => res.json())
+          .then(data => {
+            console.log(data);
+            localStorage.setItem('car-access-token', data.token)
+          });
         saveUser(result?.user);
         navigate(from, { replace: true });
       })
