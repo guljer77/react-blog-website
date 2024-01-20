@@ -36,7 +36,7 @@ function Details() {
     fetch(`https://blog-server-5l4tzs3mu-guljer77.vercel.app/comments`, {
       method: "POST",
       headers: {
-        "content-type": "application/json",
+        "Content-Type": "application/json"
       },
       body: JSON.stringify(messageComment),
     })
