@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Container from "../../Container";
 import { Link, NavLink } from "react-router-dom";
 import { FaBarsStaggered } from "react-icons/fa6";
@@ -11,6 +11,18 @@ function Nav() {
   const [menu, setMenu] = useState(false);
   const [profile, setProfile] = useState(false);
   const { user, userSignOut } = useContext(AuthContext);
+
+  const [admin, setAdmin] = useState([]);
+  useEffect(() => {
+    fetch(`http://localhost:5000/users`)
+      .then(res => res.json())
+      .then(data => setAdmin(data));
+  }, [admin]);
+
+  const adminPage = admin?.find(
+    item => item?.role && item?.email === user?.email
+  );
+
   const logoutHandle = () => {
     userSignOut()
       .then(() => {})
@@ -115,9 +127,19 @@ function Nav() {
           <ul className="space-y-2">
             {user ? (
               <>
-                <li className="text-[16px] font-semibold cursor-pointer">
-                  <Link to="/profile">Profile</Link>
-                </li>
+                {adminPage ? (
+                  <>
+                    <li className="text-[16px] font-semibold cursor-pointer">
+                      <Link to="/dashboard">Dashboard</Link>
+                    </li>
+                  </>
+                ) : (
+                  <>
+                    <li className="text-[16px] font-semibold cursor-pointer">
+                      <Link to="/profile">Profile</Link>
+                    </li>
+                  </>
+                )}
                 <li
                   onClick={logoutHandle}
                   className="text-[16px] font-semibold cursor-pointer"

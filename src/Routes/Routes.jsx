@@ -14,6 +14,8 @@ import AddPost from "../Pages/Profile/Add-Post/AddPost";
 import AllPost from "../Pages/Profile/All-Post/AllPost";
 import PrivateRoutes from "./PrivateRoutes";
 import Edit from "../Pages/Profile/Edit-Post/Edit";
+import DashboardLayouts from "../Layouts/DashboardLayouts";
+import DashboardHome from "../Dashboard/DashboardHome/DashboardHome";
 
 export const router = createBrowserRouter([
   {
@@ -80,4 +82,14 @@ export const router = createBrowserRouter([
     path: "/signUp",
     element: <Signup />,
   },
+  {
+    path: '/dashboard',
+    element: <PrivateRoutes><DashboardLayouts /></PrivateRoutes>,
+    children: [
+      {
+        path: '/dashboard',
+        element: <DashboardHome />
+      }
+    ]
+  }
 ]);
